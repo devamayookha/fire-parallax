@@ -8,8 +8,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
 
-MODIS_FILE = PROCESSED_DIR / "modis_aqua_type0.csv"
-VIIRS_FILE = PROCESSED_DIR / "viirs_noaa20_type0.csv"
+MODIS_FILE = PROCESSED_DIR / "modis_punjab_haryana.csv"
+VIIRS_FILE = PROCESSED_DIR / "viirs_punjab_haryana.csv"
 
 OUTPUT_DIR = PROCESSED_DIR
 
