@@ -2,187 +2,315 @@
 
 # 🔥 FIRE PARALLAX
 
-### A SENSOR-AWARE BURNING ACTIVITY CALENDAR
+### A Sensor-Aware Burning Activity Calendar
 
-**Two sensors. One region. A clearer picture of detected burning activity.**
+**Two sensors. One region. Different observations.**
 
-<br>
-
-[![NASA Space Apps Challenge 2026](https://img.shields.io/badge/NASA%20Space%20Apps-2026-0B3D91?style=for-the-badge&logo=nasa&logoColor=white)](https://www.spaceappschallenge.org/)
+[![NASA Space Apps 2026](https://img.shields.io/badge/NASA%20Space%20Apps-2026-0B3D91?style=for-the-badge&logo=nasa&logoColor=white)](https://www.spaceappschallenge.org/)
 [![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+[![NASA FIRMS](https://img.shields.io/badge/Data-NASA%20FIRMS-E8590C?style=for-the-badge)](https://firms.modaps.eosdis.nasa.gov/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-2EA44F?style=for-the-badge)](LICENSE)
 
-<br>
+**Challenge:** Harmonization of MODIS and VIIRS Hot Spots
 
-**Built by TEAM ROCHE DOMINION**
+**Team ROCHE DOMINION**
 
 </div>
 
 ---
 
-## 🌌 THE IDEA
+## 📑 Table of Contents
 
-What happens when two different satellite instruments observe the same region?
+- [The Idea](#-the-idea)
+- [Key Findings](#-key-findings)
+- [The Satellites](#-the-satellites)
+- [Explore the Project](#-explore-the-project)
+- [Study Region](#-study-region)
+- [How It Works](#-how-it-works)
+- [Sensitivity Analysis](#-sensitivity-analysis)
+- [Technology Stack](#-technology-stack)
+- [Project Structure](#-project-structure)
+- [Run Locally](#-run-locally)
+- [Scientific Limitations](#-scientific-limitations)
+- [Documentation](#-documentation)
+- [Meet the Team](#-meet-the-team)
+- [Acknowledgements](#-acknowledgements)
 
-Do they record similar patterns of burning activity? Do their observations overlap? How does the seasonal picture change depending on the sensor?
+---
 
-**Fire Parallax** explores these questions by comparing active-fire observations from NASA's MODIS Aqua and VIIRS NOAA-20 instruments across Punjab and Haryana, India.
+## 🌌 The Idea
 
-Rather than treating every satellite detection as an individual fire, the project harmonizes observations using a common spatial grid and temporal framework to explore where and when the sensors record activity.
+> **When two satellite instruments observe the same region, how much of their recorded burning activity overlaps?**
 
-> Our goal is not simply to count hotspots. It is to understand how satellite observation differences shape the picture of detected burning activity.
+Fire Parallax is an interactive analysis platform comparing active-fire detections from NASA's **MODIS Aqua** and **VIIRS NOAA-20** instruments across Punjab and Haryana, India.
 
-## 🛰️ THE SATELLITES
+The project addresses the challenge of harmonizing active-fire observations from two satellite systems with different spatial resolutions, observation characteristics and confidence reporting schemes.
 
-<div align="center">
+Rather than treating every hotspot as a separate physical fire, Fire Parallax places detections onto a common spatial grid and daily timeline.
 
-| MODIS Aqua | VIIRS NOAA-20 |
-|:---:|:---:|
-| Moderate Resolution Imaging Spectroradiometer | Visible Infrared Imaging Radiometer Suite |
-| Approximately 1 km nominal resolution | 375 m nominal resolution |
-| NASA Aqua satellite | NOAA-20 satellite |
+This creates three comparison categories:
 
-</div>
+- 🟢 **Co-detected:** Both sensors record qualifying detections in the same spatial cell on the same UTC date.
+- 🔵 **MODIS-only:** MODIS records activity in a cell-day where VIIRS does not.
+- 🟠 **VIIRS-only:** VIIRS records activity in a cell-day where MODIS does not.
 
-Different instruments have different spatial resolutions, observation characteristics and confidence systems. Comparing their raw hotspot counts directly can therefore be misleading.
+The resulting calendar helps users explore seasonal patterns, spatial overlap, sensor-specific observations and the effect of analytical choices.
 
-Fire Parallax makes these differences part of the analysis.
+**Our objective is to make differences between satellite observations visible, measurable and interpretable.**
 
-## 🎯 EXPLORE THE PROJECT
+---
 
-| Feature | What it does |
+## 🏆 Key Findings
+
+### Sensor overlap is limited at the cell-day level
+
+| Grid resolution | MODIS cell-days | VIIRS cell-days | Co-detected cell-days | Jaccard overlap |
+|:---:|---:|---:|---:|---:|
+| 1 km | 11,097 | 46,331 | 1,849 | 3.33% |
+| **2 km** | **9,894** | **39,726** | **3,406** | **7.37%** |
+| 5 km | 7,656 | 24,472 | 5,166 | 19.16% |
+
+**What these results tell us:**
+
+- At the selected 2 km resolution, the Jaccard overlap is **7.37%**.
+- Most recorded cell-days are not shared between the two sensors under the selected matching rule.
+- Measured overlap increases as the grid becomes larger.
+- Larger cells also increase the possibility of coincidental spatial overlap. Therefore, increasing Jaccard overlap does not, by itself, demonstrate improved agreement or sensor convergence.
+
+Jaccard overlap is calculated as:
+
+\[
+J(A,B)=\frac{|A\cap B|}{|A\cup B|}\times100
+\]
+
+Where:
+- \(A\) represents MODIS cell-days.
+- \(B\) represents VIIRS cell-days.
+- \(A\cap B\) represents cell-days recorded by both sensors.
+- \(A\cup B\) represents cell-days recorded by either sensor.
+
+### Regional observations
+
+After filtering and clipping to the study region:
+
+| State | MODIS Aqua detections | VIIRS NOAA-20 detections |
+|:---|---:|---:|
+| Punjab | 10,488 | 50,027 |
+| Haryana | 782 | 4,776 |
+| **Total** | **11,270** | **54,803** |
+
+These are active-fire detection records, not counts of unique physical fires.
+
+### Weekly activity peaks
+
+| State | MODIS Aqua peak week | VIIRS NOAA-20 peak week |
+|:---|:---|:---|
+| Punjab | 31 October 2022 | 31 October 2022 |
+| Haryana | 24 October 2022 | 24 October 2022 |
+
+The weekly peak represents the week with the largest share of that sensor's recorded active cell-days within the selected state and study period.
+
+---
+
+## 🛰️ The Satellites
+
+Fire Parallax compares two satellite-based active-fire observation systems.
+
+| Parameter | MODIS Aqua | VIIRS NOAA-20 |
+|:---|:---|:---|
+| Instrument | Moderate Resolution Imaging Spectroradiometer | Visible Infrared Imaging Radiometer Suite |
+| Platform | NASA Aqua | NOAA-20 |
+| Product | Collection 6.1 | Collection 2 |
+| Nominal spatial resolution | Approximately 1 km | 375 m |
+| Confidence reporting | Numeric confidence | Categorical confidence |
+
+The instruments differ in spatial resolution, observation geometry, overpass timing, detection characteristics and confidence reporting.
+
+Consequently, their raw hotspot counts cannot be interpreted as directly interchangeable measurements.
+
+Fire Parallax preserves these differences as part of the comparison rather than assuming both instruments observe the Earth in exactly the same way.
+
+---
+
+## 🎯 Explore the Project
+
+The Streamlit application provides six interactive sections.
+
+| Section | Function |
 |:---|:---|
-| 📊 **Burning Activity Calendar** | Explore weekly activity patterns and seasonal distributions. |
-| 🗺️ **Spatial Explorer** | Visualize co-detected, MODIS-only and VIIRS-only cell-days. |
-| 📈 **Sensor Comparison** | Compare activity across Punjab and Haryana. |
-| 🔬 **Confidence Explorer** | Examine the confidence categories reported by each sensor. |
-| 📖 **Methodology** | Understand the processing rules, comparison framework and limitations. |
-| 📉 **Sensitivity Analysis** | Examine how spatial resolution affects sensor agreement. |
+| 📊 **Overview** | Introduces the study region, sensors and project findings. |
+| 🔥 **Burning Activity Calendar** | Displays weekly activity patterns and seasonal distributions. |
+| 🗺️ **Spatial Explorer** | Maps co-detected, MODIS-only and VIIRS-only cell-days. |
+| 📈 **Sensor Comparison** | Compares recorded activity across Punjab and Haryana. |
+| 🔬 **Confidence Explorer** | Explores confidence categories reported by each sensor. |
+| 📖 **Methodology** | Explains the processing pipeline, comparison rules and scientific limitations. |
 
-## 📍 STUDY REGION
+---
+
+## 📍 Study Region
 
 **Punjab and Haryana, India**
+
+The study focuses on the post-monsoon period, when agricultural residue burning is a relevant regional concern.
+
+However, the analysis does not classify detections as confirmed agricultural burning.
 
 | Parameter | Configuration |
 |:---|:---|
 | Observation period | 1 October – 30 November 2022 |
-| MODIS dataset | Collection 6.1 – Aqua |
-| VIIRS dataset | Collection 2 – NOAA-20 |
-| Detection type | Type 0 |
-| Primary spatial grid | 2 km |
-| Additional grid tests | 1 km and 5 km |
+| Duration | 61 calendar days |
+| MODIS dataset | Collection 6.1, Aqua |
+| VIIRS dataset | Collection 2, NOAA-20 |
+| Detection type | Type 0 — presumed vegetation fire |
+| Primary grid resolution | 2 km |
+| Additional grid resolutions | 1 km and 5 km |
 | Temporal aggregation | Weekly |
-| Coordinate reference system | EPSG:32643 |
+| Matching date | UTC acquisition date |
+| Projected coordinate system | UTM Zone 43N (EPSG:32643) |
 
-The region and observation period provide a focused case study for examining seasonal active-fire detection patterns.
+### What does Type 0 mean?
 
-## 🧬 HOW IT WORKS
+The FIRMS `type` field identifies the general type of active-fire detection.
 
-```text
-                 NASA FIRMS DATA
-                        |
-             +----------+----------+
-             |                     |
-         MODIS Aqua           VIIRS NOAA-20
-             |                     |
-             +----------+----------+
-                        |
-               DATA PREPROCESSING
-                        |
-                SENSOR SELECTION
-                  AND FILTERING
-                        |
-                 REGIONAL CLIPPING
-                        |
-                  COMMON SPATIAL
-                      GRID
-                        |
-                 CELL-DAY MATCHING
-                        |
-             +----------+----------+
-             |          |          |
-          BOTH       MODIS       VIIRS
-         SENSORS      ONLY        ONLY
-             |          |          |
-             +----------+----------+
-                        |
-              TEMPORAL & SPATIAL
-                    ANALYSIS
-                        |
-                 INTERACTIVE
-                   DASHBOARD
+For this analysis, `type == 0` is selected to retain presumed vegetation-fire detections.
+
+This filter does **not** establish whether a detection represents:
+- Agricultural residue burning.
+- A forest fire.
+- Grassland burning.
+- Another vegetation-related thermal event.
+
+The original raw datasets retain the other detection types. The baseline comparison uses Type 0 records only.
+
+---
+
+## 🧬 How It Works
+
+```mermaid
+flowchart TD
+    A[("NASA FIRMS<br/>Active-fire observations")] --> B["MODIS Aqua<br/>Collection 6.1"]
+    A --> C["VIIRS NOAA-20<br/>Collection 2"]
+
+    B --> D["Preprocessing<br/>Platform and type filtering"]
+    C --> D
+
+    D --> E["Regional clipping<br/>Punjab and Haryana"]
+    E --> F["Coordinate transformation<br/>UTM Zone 43N"]
+    F --> G["Common spatial grid<br/>1 km / 2 km / 5 km"]
+    G --> H["Cell-day comparison<br/>Same grid cell + UTC date"]
+
+    H --> I["Co-detected"]
+    H --> J["MODIS-only"]
+    H --> K["VIIRS-only"]
+
+    I --> L["Weekly and spatial analysis"]
+    J --> L
+    K --> L
+
+    L --> M["Interactive Streamlit dashboard"]
 ```
 
 ### What is a cell-day?
 
-A cell-day represents a spatial grid cell with at least one qualifying detection on a particular UTC date.
+A **cell-day** represents one spatial grid cell with at least one qualifying detection on a particular UTC date.
 
-We classify cell-days into three groups:
+The baseline qualifying-detection rules are:
 
-- 🟢 **Co-detected:** Both sensors recorded at least one qualifying detection in the same cell on the same UTC date.
-- 🔵 **MODIS-only:** MODIS recorded a detection, but VIIRS did not under the selected matching rule.
-- 🟠 **VIIRS-only:** VIIRS recorded a detection, but MODIS did not under the selected matching rule.
+1. MODIS observations are restricted to the Aqua platform.
+2. VIIRS observations are restricted to NOAA-20.
+3. Both datasets are filtered to `type == 0`.
+4. Detections are clipped to the Punjab and Haryana administrative boundaries.
+5. Coordinates are transformed into UTM Zone 43N.
+6. Detections are assigned to a common spatial grid.
+7. Sensor activity is compared using the same grid cell and UTC date.
 
-These are observation-comparison categories, not reconstructed physical fire events.
+No additional confidence threshold is applied in the baseline analysis. Original confidence values are retained for separate confidence exploration.
 
-## 📊 SENSITIVITY ANALYSIS
+### Cell-day comparison categories
 
-Spatial resolution can strongly influence apparent agreement between satellite observations.
+| Category | Definition |
+|:---|:---|
+| 🟢 Co-detected | Both sensors have at least one qualifying detection in the same grid cell on the same UTC date. |
+| 🔵 MODIS-only | MODIS has a qualifying detection, but VIIRS does not under the same matching rule. |
+| 🟠 VIIRS-only | VIIRS has a qualifying detection, but MODIS does not under the same matching rule. |
 
-Our analysis tests three grid sizes:
+> **Important:** These categories describe satellite observation overlap. They do not establish that both sensors observed the same physical fire or that one sensor missed a verified fire.
 
-| Grid size | Co-detected cell-days | Jaccard agreement |
+---
+
+## 📊 Sensitivity Analysis
+
+The choice of spatial resolution affects the measured overlap between the two datasets.
+
+| Grid resolution | Co-detected cell-days | Jaccard overlap |
 |:---:|---:|---:|
 | 1 km | 1,849 | 3.33% |
 | 2 km | 3,406 | 7.37% |
 | 5 km | 5,166 | 19.16% |
 
-The increasing overlap demonstrates why spatial scale matters when comparing sensors.
+The 2 km grid is used as the primary working configuration for the calendar and dashboard.
 
-The 2 km grid is our primary working configuration, not a universally optimal resolution.
+It is a practical analytical choice, not a universally optimal resolution.
 
-We also examine grid-origin shifts and temporal matching tolerances to understand how comparison choices affect the results.
+### Additional sensitivity tests
 
-## 🧰 TECHNOLOGY STACK
+Fire Parallax also investigates:
+
+- **Grid-origin sensitivity:** Tests whether shifting the grid changes the measured overlap.
+- **Temporal tolerance:** Compares matching using the same UTC date against wider date windows.
+- **High-confidence subsets:** Examines sensor-specific high-confidence detections separately.
+- **State-day overlap:** Examines whether both sensors record activity somewhere within the same state and date.
+
+These tests measure how comparison outcomes depend on analytical choices. They do not reconstruct physical fire events or establish sensor accuracy.
+
+---
+
+## 🧰 Technology Stack
 
 <div align="center">
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
-![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white)
-![GeoPandas](https://img.shields.io/badge/GeoPandas-139C5A?style=flat-square)
-![Shapely](https://img.shields.io/badge/Shapely-3776AB?style=flat-square)
-![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=flat-square&logo=plotly&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![GeoPandas](https://img.shields.io/badge/GeoPandas-139C5A?style=for-the-badge)
+![Shapely](https://img.shields.io/badge/Shapely-3776AB?style=for-the-badge)
+![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 
 </div>
 
-- **Data processing:** Pandas, NumPy
-- **Geospatial analysis:** GeoPandas, Shapely, PyProj
-- **Visualization:** Plotly
-- **Interactive application:** Streamlit
-- **Testing and validation:** Pytest and project-specific integrity checks
-- **Data source:** NASA FIRMS
+| Layer | Technologies |
+|:---|:---|
+| Programming language | Python |
+| Data processing | Pandas, NumPy |
+| Geospatial processing | GeoPandas, Shapely, PyProj |
+| Spatial analysis | UTM projection, spatial grids, cell-day matching |
+| Visualization | Plotly |
+| Application | Streamlit |
+| Data source | NASA FIRMS |
 
-## 📂 PROJECT STRUCTURE
+---
+
+## 📂 Project Structure
 
 ```text
 fire-parallax/
 │
 ├── app/
+│   ├── __init__.py
 │   └── main.py
 │
 ├── assets/
 │   └── screenshots/
 │
 ├── data/
-│   ├── raw/
-│   ├── processed/
-│   └── sample/
+│   ├── raw/                 # Original FIRMS downloads (not committed)
+│   ├── processed/           # Generated datasets (not committed)
+│   └── sample/              # Reserved for sample data
 │
 ├── docs/
-│   └── RESULTS.md
+│   └── RESULTS.md           # Detailed methodology and results
 │
 ├── src/
 │   ├── preprocess.py
@@ -198,56 +326,66 @@ fire-parallax/
 │   ├── date_overlap_analysis.py
 │   ├── temporal_tolerance.py
 │   ├── grid_origin_sensitivity.py
-│   ├── validate_project.py
-│   └── visualization modules
+│   ├── visualize_calendar.py
+│   ├── visualize_spatial.py
+│   └── validate_project.py
 │
 ├── tests/
+│
+├── .gitignore
 ├── requirements.txt
-├── README.md
 ├── LICENSE
-└── .gitignore
+└── README.md
 ```
 
-## 🚀 RUN LOCALLY
+---
+
+## 🚀 Run Locally
 
 ### 1. Clone the repository
 
-```cmd
+```bash
 git clone https://github.com/devamayookha/fire-parallax.git
 cd fire-parallax
 ```
 
 ### 2. Create a virtual environment
 
-```cmd
+```bash
 python -m venv .venv
 ```
 
-Activate it in Windows CMD:
+**Windows CMD:**
 
 ```cmd
 .venv\Scripts\activate
 ```
 
+**macOS / Linux:**
+
+```bash
+source .venv/bin/activate
+```
+
 ### 3. Install dependencies
 
-```cmd
+```bash
 pip install -r requirements.txt
 ```
 
-### 4. Obtain the datasets
+### 4. Download NASA FIRMS datasets
 
-Download historical active-fire data from [NASA FIRMS](https://firms.modaps.eosdis.nasa.gov/).
+Download historical active-fire data from NASA FIRMS using the following configuration:
 
-Use the following study configuration:
+| Setting | Value |
+|:---|:---|
+| Date range | 2022-10-01 to 2022-11-30 |
+| Bounding box | West 73.7, South 27.5, East 77.9, North 32.6 |
+| MODIS | Collection 6.1 |
+| VIIRS | Collection 2, NOAA-20 |
+| Format | CSV |
 
-- **Date range:** 2022-10-01 to 2022-11-30
-- **Geographical bounding box:** West 73.7, South 27.5, East 77.9, North 32.6
-- **MODIS:** Collection 6.1, Aqua observations
-- **VIIRS:** Collection 2, NOAA-20 observations
-- **Format:** CSV
-
-Extract the downloaded files into the following locations:
+Place the extracted files in these locations:
 
 ```text
 data/
@@ -259,19 +397,17 @@ data/
         └── fire_archive_J1V-C2_846583.csv
 ```
 
-The filenames above correspond to the datasets used in this project's analysis. If you download new FIRMS requests, update the filenames or corresponding input paths in the source modules.
+The filenames above correspond to the FIRMS requests used for this analysis.
 
-The administrative boundary data is retrieved by the boundary-processing module.
-
-**Important:** Raw and processed datasets are excluded from this GitHub repository. They must be obtained and generated locally.
+If you download different files, update the corresponding input paths in the source modules.
 
 ### 5. Generate the analysis outputs
 
-Run these commands from the repository root, in the following order.
+Run the modules from the repository root in the following order.
 
-**Core preprocessing and analysis:**
+**Core processing pipeline**
 
-```cmd
+```bash
 python -m src.preprocess
 python -m src.boundaries
 python -m src.clip_region
@@ -282,9 +418,9 @@ python -m src.confidence_calendar
 python -m src.confidence_summary
 ```
 
-**Additional comparison and sensitivity analyses:**
+**Additional comparison and sensitivity analyses**
 
-```cmd
+```bash
 python -m src.agreement_analysis
 python -m src.high_confidence_analysis
 python -m src.date_overlap_analysis
@@ -292,61 +428,66 @@ python -m src.temporal_tolerance
 python -m src.grid_origin_sensitivity
 ```
 
-**Validate the generated outputs:**
+**Validate the generated outputs**
 
-```cmd
+```bash
 python -m src.validate_project
 ```
 
 The validation module checks expected record counts, calendar dimensions, confidence summaries and spatial comparison totals.
 
-### 6. Launch the application
+### 6. Launch the dashboard
 
-```cmd
+```bash
 streamlit run app/main.py
 ```
 
-The application reads the generated processed datasets from `data/processed/`.
+The application reads its generated datasets from `data/processed/`.
 
-## 📚 DOCUMENTATION
-
-For detailed methodology, data processing decisions, numerical results, sensitivity analysis and scientific limitations, see:
-
-**[📖 Detailed Results and Methodology](docs/RESULTS.md)**
-
-## ⚠️ SCIENTIFIC LIMITATIONS
-
-We believe responsible interpretation is just as important as visualization.
-
-- Active-fire hotspots are satellite thermal detections, not verified physical fire events.
-- Type 0 detections are not proof of agricultural burning.
-- MODIS and VIIRS have different resolutions, observation times and detection characteristics.
-- Their confidence systems are not directly equivalent.
-- A missing satellite detection does not establish that no fire occurred.
-- Spatial co-detection does not prove that both sensors observed the same physical fire.
-- The analysis covers a limited geographical region and observation period.
-- Confidence-class-specific active cell-days can overlap when multiple confidence classes occur in the same cell-day. They should not be summed as unique activity totals.
-
-**Fire Parallax compares satellite observations. It does not claim to reconstruct every real-world fire event.**
+> **Data availability:** Raw and processed datasets are excluded from this GitHub repository. Users must obtain the FIRMS data and generate the processed outputs locally before launching the dashboard. Administrative boundaries are downloaded by the boundary-processing module.
 
 ---
 
-# 👥 MEET THE TEAM
+## ⚠️ Scientific Limitations
+
+Fire Parallax is an observation-comparison project, not a physical fire reconstruction system.
+
+The following limitations apply:
+
+- Active-fire hotspots are satellite thermal detections, not verified counts of physical fires.
+- Type 0 identifies presumed vegetation-fire detections; it does not prove agricultural residue burning.
+- MODIS and VIIRS have different spatial resolutions and observation characteristics.
+- Their confidence systems are not directly equivalent.
+- A missing detection does not establish that no fire occurred.
+- Spatial co-detection does not prove that both sensors observed the same physical fire.
+- A larger grid can increase apparent overlap through spatial aggregation.
+- Temporal tolerance matching does not establish one-to-one physical event correspondence.
+- Confidence-class-specific cell-days can overlap when detections with different confidence categories occur in the same cell-day. They must not be summed as unique activity totals.
+- The analysis covers one region and one two-month period. Its findings should not be generalized to all locations or seasons.
+- The administrative boundary dataset used for the analysis has its own source-date and boundary-accuracy limitations.
+
+The results should therefore be interpreted as differences in recorded satellite observations under specified comparison rules.
+
+---
+
+## 📚 Documentation
+
+For the complete methodology, data processing decisions, numerical results, sensitivity analyses and detailed limitations, see:
+
+**[Detailed Results and Methodology](docs/RESULTS.md)**
+
+---
+
+## 👥 Meet the Team
 
 <div align="center">
 
-## ROCHE DOMINION
-
-*Curiosity beyond the visible. Analysis beyond the obvious.*
-
-<br>
+# 🔥 ROCHE DOMINION 🔥
 
 | Team Member | GitHub |
-|:---:|:---:|
+|:---|:---|
 | **B R Devamayookha** | [@devamayookha](https://github.com/devamayookha) |
 | **Kanisha M** | [@kanisha0729](https://github.com/kanisha0729) |
-
-<br>
 
 **NASA SPACE APPS CHALLENGE 2026**
 
@@ -354,22 +495,27 @@ We believe responsible interpretation is just as important as visualization.
 
 ---
 
-## 🌠 OUR MISSION
+## 🙏 Acknowledgements
 
-To explore how Earth-observing satellites reveal patterns that may not be obvious from a single instrument's observations.
+- **NASA FIRMS (Fire Information for Resource Management System)** for providing active-fire observation data.
+- **NASA LANCE (Land, Atmosphere Near real-time Capability for EOS)** and the teams responsible for the MODIS active-fire products.
+- **NOAA-20 VIIRS** science and data teams for the VIIRS active-fire observations.
+- NASA Space Apps Challenge organizers and mentors.
 
-**Because the way we observe Earth matters just as much as what we observe.**
+Data products and their documentation should be consulted for detailed information about collection versions, confidence fields and product characteristics.
+
+---
+
+## 📄 License
+
+This project is released under the [MIT License](LICENSE).
+
+---
 
 <div align="center">
 
-### 🔥 FIRE PARALLAX
+### Because the way we observe Earth matters as much as what we observe.
 
-**TEAM ROCHE DOMINION**
-
-[View Repository](https://github.com/devamayookha/fire-parallax) · [Report an Issue](https://github.com/devamayookha/fire-parallax/issues)
-
-<br>
-
-*Built with curiosity, satellite data and a passion for Earth observation.*
+**Built by ROCHE DOMINION | NASA Space Apps Challenge 2026**
 
 </div>
