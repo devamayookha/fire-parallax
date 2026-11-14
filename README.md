@@ -85,6 +85,7 @@ J(A,B)=\frac{|A\cap B|}{|A\cup B|}\times100
 \]
 
 Where:
+
 - \(A\) represents MODIS cell-days.
 - \(B\) represents VIIRS cell-days.
 - \(A\cap B\) represents cell-days recorded by both sensors.
@@ -176,6 +177,7 @@ The FIRMS `type` field identifies the general type of active-fire detection.
 For this analysis, `type == 0` is selected to retain presumed vegetation-fire detections.
 
 This filter does **not** establish whether a detection represents:
+
 - Agricultural residue burning.
 - A forest fire.
 - Grassland burning.
@@ -260,7 +262,23 @@ Fire Parallax also investigates:
 - **Grid-origin sensitivity:** Tests whether shifting the grid changes the measured overlap.
 - **Temporal tolerance:** Compares matching using the same UTC date against wider date windows.
 - **High-confidence subsets:** Examines sensor-specific high-confidence detections separately.
+- **Directional cross-confidence matching:** Checks whether high-confidence cell-days from one sensor also contain any-confidence detections from the other sensor, in the same state, UTC date and grid cell.
 - **State-day overlap:** Examines whether both sensors record activity somewhere within the same state and date.
+
+### Directional cross-confidence findings
+
+At the primary 2 km resolution:
+
+| Direction | High-confidence cell-days | Matched cell-days | Matching rate |
+|:---|---:|---:|---:|
+| MODIS High → any VIIRS | 1,303 | 585 | 44.90% |
+| VIIRS High → any MODIS | 1,297 | 90 | 6.94% |
+
+These rates measure the proportion of high-confidence cell-days from one sensor that also contain at least one detection from the other sensor under the same state, UTC date and grid cell matching rule.
+
+They are **directional spatial-temporal matching rates**, not detection probabilities, accuracy estimates, symmetric agreement scores or evidence that one sensor is superior.
+
+The two instruments use different confidence systems and have different detection characteristics. Their high-confidence categories are not equivalent statistical populations.
 
 These tests measure how comparison outcomes depend on analytical choices. They do not reconstruct physical fire events or establish sensor accuracy.
 
@@ -313,10 +331,12 @@ fire-parallax/
 │   └── RESULTS.md           # Detailed methodology and results
 │
 ├── src/
+│   ├── __init__.py
 │   ├── preprocess.py
 │   ├── boundaries.py
 │   ├── clip_region.py
 │   ├── spatial.py
+│   ├── make_high_confidence.py
 │   ├── grid_analysis.py
 │   ├── calendar_analysis.py
 │   ├── confidence_calendar.py
@@ -326,9 +346,9 @@ fire-parallax/
 │   ├── date_overlap_analysis.py
 │   ├── temporal_tolerance.py
 │   ├── grid_origin_sensitivity.py
+│   ├── validate_project.py
 │   ├── visualize_calendar.py
-│   ├── visualize_spatial.py
-│   └── validate_project.py
+│   └── visualize_spatial.py
 │
 ├── tests/
 │
@@ -389,12 +409,12 @@ Place the extracted files in these locations:
 
 ```text
 data/
-└── raw/
-    ├── modis/
-    │   └── fire_archive_M-C61_846582.csv
-    │
-    └── viirs_noaa20/
-        └── fire_archive_J1V-C2_846583.csv
+├── raw/
+│   ├── modis/
+│   │   └── fire_archive_M-C61_846582.csv
+│   │
+│   └── viirs_noaa20/
+│       └── fire_archive_J1V-C2_846583.csv
 ```
 
 The filenames above correspond to the FIRMS requests used for this analysis.
@@ -412,6 +432,7 @@ python -m src.preprocess
 python -m src.boundaries
 python -m src.clip_region
 python -m src.spatial
+python -m src.make_high_confidence
 python -m src.grid_analysis
 python -m src.calendar_analysis
 python -m src.confidence_calendar
@@ -434,7 +455,9 @@ python -m src.grid_origin_sensitivity
 python -m src.validate_project
 ```
 
-The validation module checks expected record counts, calendar dimensions, confidence summaries and spatial comparison totals.
+The validation module checks expected input record counts, calendar dimensions, confidence summaries, spatial comparison totals, grid-resolution sensitivity, high-confidence overlap and directional cross-confidence matching results.
+
+These checks act as regression checks for the current reference dataset; they do not establish the correctness of the underlying satellite detections.
 
 ### 6. Launch the dashboard
 
@@ -462,6 +485,7 @@ The following limitations apply:
 - Spatial co-detection does not prove that both sensors observed the same physical fire.
 - A larger grid can increase apparent overlap through spatial aggregation.
 - Temporal tolerance matching does not establish one-to-one physical event correspondence.
+- Directional cross-confidence matching does not establish sensor accuracy or detection probability.
 - Confidence-class-specific cell-days can overlap when detections with different confidence categories occur in the same cell-day. They must not be summed as unique activity totals.
 - The analysis covers one region and one two-month period. Its findings should not be generalized to all locations or seasons.
 - The administrative boundary dataset used for the analysis has its own source-date and boundary-accuracy limitations.

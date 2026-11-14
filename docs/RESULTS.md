@@ -129,7 +129,7 @@ The first calendar week covers only 1–2 October (two days), and the final week
 
 Jaccard overlap is calculated as:
 
-`co-detected cell-days / (MODIS cell-days + VIIRS cell-days − co-detected cell-days)`
+`co-detected cell-days / (MODIS cell-days + VIIRS cell-days − co-detected cell-days) × 100`
 
 The measured overlap increases as the grid becomes coarser.
 
@@ -224,9 +224,53 @@ The high-confidence subsets show substantially lower same-day spatial overlap th
 
 However, the sensors use different confidence systems, and their high-confidence subsets are not equivalent statistical populations. The difference cannot be attributed to confidence filtering alone.
 
-This result is therefore a sensitivity observation, not evidence that either sensor is more accurate or that high-confidence detections are less reliable.
+This result is a sensitivity observation, not evidence that either sensor is more accurate or that high-confidence detections are less reliable.
 
-### 4.5 Temporal-tolerance sensitivity
+### 4.5 High-confidence-to-any-confidence directional comparison
+
+The high-to-high comparison above requires a high-confidence cell-day in one sensor to coincide with a high-confidence cell-day in the other sensor.
+
+A second comparison was conducted to examine a different question:
+
+**When one sensor reports a high-confidence cell-day, does the other sensor report any qualifying detection in that same cell on the same UTC date, regardless of its confidence class?**
+
+The comparison uses the same state, UTC date, grid X coordinate, and grid Y coordinate matching rule.
+
+At 2 km resolution:
+
+| Direction | High-confidence cell-days | Other sensor's any-confidence cell-days | Matched high-confidence cell-days | Unmatched high-confidence cell-days | Directional match rate |
+|---|---:|---:|---:|---:|---:|
+| MODIS High → any VIIRS | 1,303 | 39,726 | 585 | 718 | 44.90% |
+| VIIRS High → any MODIS | 1,297 | 9,894 | 90 | 1,207 | 6.94% |
+
+The directional match rate is calculated as:
+
+`matched high-confidence cell-days / total high-confidence cell-days × 100`
+
+The rates have different denominators because each direction starts with a different sensor's high-confidence cell-days.
+
+The comparison was also repeated at all three grid resolutions:
+
+| Grid resolution | Direction | High-confidence cell-days | Other sensor any-confidence cell-days | Matched high-confidence cell-days | Directional match rate |
+|---|---|---:|---:|---:|---:|
+| 1 km | MODIS High → any VIIRS | 1,392 | 46,331 | 343 | 24.64% |
+| 1 km | VIIRS High → any MODIS | 1,350 | 11,097 | 32 | 2.37% |
+| 2 km | MODIS High → any VIIRS | 1,303 | 39,726 | 585 | 44.90% |
+| 2 km | VIIRS High → any MODIS | 1,297 | 9,894 | 90 | 6.94% |
+| 5 km | MODIS High → any VIIRS | 1,168 | 24,472 | 904 | 77.40% |
+| 5 km | VIIRS High → any MODIS | 1,127 | 7,656 | 249 | 22.09% |
+
+The directional rates increase at coarser spatial resolutions. This is consistent with the broader grid-resolution sensitivity result: larger cells make spatial coincidence easier to obtain.
+
+At the provisional 2 km resolution, 44.90% of MODIS high-confidence cell-days have at least one VIIRS detection in the corresponding cell-day. In the reverse direction, 6.94% of VIIRS high-confidence cell-days have at least one MODIS detection in the corresponding cell-day.
+
+These results are asymmetric and must be interpreted carefully.
+
+They do not establish that MODIS is more accurate, that VIIRS misses a particular percentage of fires, or that matched records represent the same physical fire. They measure directional cell-day coincidence under the selected spatial and temporal matching rule.
+
+The two sensors' confidence systems are not equivalent, and the directional rates are not probabilities of detection or accuracy scores.
+
+### 4.6 Temporal-tolerance sensitivity
 
 At 2 km resolution, allowing a temporal matching window increases the proportion of cell-days with at least one spatially matching record in the other sensor.
 
@@ -247,13 +291,14 @@ The increase indicates greater spatial coincidence under a relaxed temporal rule
 
 ## 5. Interpretation
 
-The analysis highlights five important properties of MODIS–VIIRS comparison:
+The analysis highlights six important properties of MODIS–VIIRS comparison:
 
 1. Spatial agreement depends strongly on the grid resolution.
 2. The measured overlap is relatively stable across the three tested grid origins.
 3. Weekly temporal patterns can show similar peak timing even when same-day spatial overlap is limited.
 4. Confidence filtering substantially changes the measured overlap, but the two sensors' confidence systems are not equivalent.
-5. Relaxing the temporal matching window increases spatial coincidence, without establishing physical fire identity.
+5. Comparing high-confidence detections against any-confidence detections produces different directional matching rates from a high-to-high comparison.
+6. Relaxing the temporal matching window increases spatial coincidence, without establishing physical fire identity.
 
 A meaningful harmonization workflow should therefore expose its comparison assumptions instead of presenting one sensor-neutral count or agreement score without context.
 
@@ -267,9 +312,10 @@ A meaningful harmonization workflow should therefore expose its comparison assum
 6. **Spatial aggregation:** Coarser grids increase apparent overlap and may combine detections from distinct locations.
 7. **Grid-origin testing:** Only three grid origins were tested. The results do not establish robustness to every possible grid alignment.
 8. **Temporal matching:** Relaxed date windows can match records from different observation dates without establishing physical fire identity.
-9. **Boundary data:** The administrative boundary dataset has a 2011 source vintage. Later boundary changes have not been independently verified.
-10. **Observation gaps:** Cloud cover, satellite coverage, overpass timing, and detection limitations mean that zero recorded detections do not establish an absence of fire.
-11. **Partial weeks:** The first and last calendar weeks contain fewer observation days than the complete weeks.
+9. **Directional matching:** High-confidence-to-any-confidence rates use different denominators and do not measure sensor accuracy or probability of detection.
+10. **Boundary data:** The administrative boundary dataset has a 2011 source vintage. Later boundary changes have not been independently verified.
+11. **Observation gaps:** Cloud cover, satellite coverage, overpass timing, and detection limitations mean that zero recorded detections do not establish an absence of fire.
+12. **Partial weeks:** The first and last calendar weeks contain fewer observation days than the complete weeks.
 
 ## 7. What the Project Does Not Claim
 
@@ -281,6 +327,7 @@ Fire Parallax does not:
 - Calculate sensor detection accuracy or probability.
 - Prove that one sensor is superior to the other.
 - Establish that co-detected records represent the same physical fire.
+- Interpret directional matching rates as detection probabilities.
 - Predict future fires.
 - Establish long-term seasonal trends from a single two-month period.
 
