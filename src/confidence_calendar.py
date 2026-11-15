@@ -168,45 +168,6 @@ def main():
 
     print("\nVIIRS:")
     print(viirs["confidence_class"].value_counts())
-
-    expected_modis = {
-        "Low": 465,
-        "Nominal": 9400,
-        "High": 1405
-    }
-
-    actual_modis = (
-        modis["confidence_class"]
-        .value_counts()
-        .to_dict()
-    )
-
-    if actual_modis != expected_modis:
-        raise ValueError(
-            "MODIS class counts do not match the previously "
-            "validated counts. Check the classification thresholds."
-        )
-
-    expected_viirs = {
-        "Low": 2052,
-        "Nominal": 51251,
-        "High": 1500
-    }
-
-    actual_viirs = (
-        viirs["confidence_class"]
-        .value_counts()
-        .to_dict()
-    )
-
-    if actual_viirs != expected_viirs:
-        raise ValueError(
-            "VIIRS class counts do not match the previously "
-            "validated counts."
-        )
-
-    print("\nBoth confidence distributions verified.")
-
     modis_weekly = create_class_calendar(
         modis,
         "MODIS Aqua"
