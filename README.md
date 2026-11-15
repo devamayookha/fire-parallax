@@ -136,7 +136,7 @@ Fire Parallax preserves these differences as part of the comparison rather than 
 
 ## 🎯 Explore the Project
 
-The Streamlit application provides six interactive sections.
+The Streamlit application provides seven interactive sections.
 
 | Section | Function |
 |:---|:---|
@@ -145,6 +145,7 @@ The Streamlit application provides six interactive sections.
 | 🗺️ **Spatial Explorer** | Maps co-detected, MODIS-only and VIIRS-only cell-days. |
 | 📈 **Sensor Comparison** | Compares recorded activity across Punjab and Haryana. |
 | 🔬 **Confidence Explorer** | Explores confidence categories reported by each sensor. |
+| 🧪 **Sensitivity Analysis** | Shows how grid resolution, grid origin, temporal tolerance and high-confidence matching change the measured overlap. |
 | 📖 **Methodology** | Explains the processing pipeline, comparison rules and scientific limitations. |
 
 ---

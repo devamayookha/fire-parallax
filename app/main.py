@@ -46,27 +46,27 @@ DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
 COLORS = {
 
-          "bg": "#080E1B",
+          "bg": "#050B16",
 
-          "panel": "#111C2F",
+          "panel": "#111E30",
 
-          "panel2": "#16243A",
+          "panel2": "#16263B",
 
-          "border": "#263852",
+          "border": "#263B54",
 
-          "text": "#E8EEF8",
+          "text": "#EAF2FF",
 
-          "muted": "#91A3BC",
+          "muted": "#91A6C0",
 
-          "blue": "#57A6FF",
+          "blue": "#4C9AFF",
 
-          "cyan": "#55D6D2",
+          "cyan": "#38D9E6",
 
-          "orange": "#FF9B5C",
+          "orange": "#FF9A50",
 
-          "red": "#FF6B6B",
+          "red": "#FF6666",
 
-          "green": "#75D69C",
+          "green": "#52D69A",
 
           "purple": "#A99BFF",
 
@@ -106,7 +106,7 @@ st.markdown(
 
           <style>
 
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap');
 
           :root {{
 
@@ -124,7 +124,7 @@ st.markdown(
 
           html, body, [class*="css"] {{
 
-               font-family: 'DM Sans', sans-serif;
+               font-family: 'Inter', sans-serif;
 
           }}
 
@@ -134,7 +134,7 @@ st.markdown(
 
                     radial-gradient(ellipse at 78% 0%, rgba(43,91,153,.17), transparent 34%),
 
-                    linear-gradient(180deg, #080E1B 0%, #0A1221 100%);
+                    linear-gradient(180deg, #050B16 0%, #0B1424 100%);
 
                color: var(--fp-text);
 
@@ -192,6 +192,13 @@ st.markdown(
 
           p, li, label {{ color: #D7E1F0; }}
 
+          [data-testid="stMetricValue"], .metric-value {{
+               font-family: 'JetBrains Mono', monospace !important;
+          }}
+          [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) {{
+               background: rgba(56,217,230,.12);
+               border-left: 2px solid #38D9E6;
+          }}
           .block-container {{
 
                max-width: 1500px;
@@ -608,6 +615,75 @@ st.markdown(
 
           footer {{ visibility: hidden; }}
 
+          
+          .status-bar {{
+               display:flex; flex-wrap:wrap; align-items:center; gap:.4rem 1.4rem;
+               font-family:'JetBrains Mono', monospace; font-size:.68rem; letter-spacing:.12em;
+               text-transform:uppercase; color:#7F95B1;
+               padding:.5rem .9rem; margin:-.4rem 0 1.1rem 0;
+               border:1px solid #1E3149; border-radius:10px;
+               background:linear-gradient(90deg, rgba(56,217,230,.07), rgba(11,20,36,.6) 40%);
+          }}
+          .status-bar .status-main {{ color:#38D9E6; font-weight:600; }}
+          .status-bar .status-right {{ margin-left:auto; color:#52D69A; }}
+          .status-dot {{
+               width:8px; height:8px; border-radius:50%; background:#52D69A;
+               box-shadow:0 0 8px #52D69A; display:inline-block; margin-right:.5rem;
+               animation:fp-pulse 2.4s ease-in-out infinite;
+          }}
+          @keyframes fp-pulse {{ 0%,100% {{ opacity:1; }} 50% {{ opacity:.35; }} }}
+          .orbit-logo {{
+               position:relative; width:46px; height:46px; border-radius:50%; margin-bottom:.2rem;
+               background:radial-gradient(circle at 35% 35%, #2F7FC0 0%, #123A63 55%, #07162A 100%);
+               box-shadow:0 0 18px rgba(56,217,230,.35), inset 0 0 10px rgba(0,0,0,.5);
+          }}
+          .orbit-logo::before {{
+               content:""; position:absolute; left:-12px; top:15px; width:70px; height:18px;
+               border:1.5px solid rgba(56,217,230,.75); border-radius:50%; transform:rotate(-24deg);
+          }}
+          .orbit-logo span {{
+               position:absolute; width:7px; height:7px; border-radius:50%; background:#FF9A50;
+               box-shadow:0 0 8px #FF9A50; right:-9px; top:8px;
+          }}
+          .metric-card {{
+               position:relative; overflow:hidden;
+               background:linear-gradient(160deg, #15263D 0%, #0E1A2D 100%);
+               border:1px solid #223653; transition:border-color .2s, transform .2s;
+          }}
+          .metric-card::before {{
+               content:""; position:absolute; left:0; top:0; right:0; height:2px;
+               background:linear-gradient(90deg, #38D9E6, #4C9AFF 55%, transparent);
+          }}
+          .metric-card:hover {{ border-color:#38D9E6; transform:translateY(-2px); }}
+          .metric-label {{ font-family:'JetBrains Mono', monospace; font-size:.66rem; letter-spacing:.13em; color:#7F95B1; }}
+          .metric-value {{ font-size:1.75rem; letter-spacing:-.02em; }}
+          .panel {{ position:relative; border-color:#223653; }}
+          .panel::before {{
+               content:""; position:absolute; left:14px; top:-1px; width:34px; height:2px; background:#38D9E6;
+          }}
+          .section-kicker {{ font-family:'JetBrains Mono', monospace; letter-spacing:.16em; }}
+          [data-testid="stPlotlyChart"] {{
+               border:1px solid #1E3149; border-radius:14px; padding:.35rem;
+               background:rgba(9,17,31,.62);
+          }}
+          [data-baseweb="select"] > div {{
+               background:#0F1B2E !important; border-color:#263B54 !important; border-radius:9px !important;
+          }}
+          [data-baseweb="select"] > div:hover {{ border-color:#38D9E6 !important; }}
+          [data-testid="stSidebar"] [data-testid="stRadio"] label {{ letter-spacing:.02em; }}
+          ::-webkit-scrollbar {{ width:9px; height:9px; }}
+          ::-webkit-scrollbar-thumb {{ background:#26405F; border-radius:6px; }}
+          ::-webkit-scrollbar-track {{ background:#0A1322; }}
+          .fp-footer {{
+               font-family:'JetBrains Mono', monospace; font-size:.68rem; letter-spacing:.14em;
+               text-transform:uppercase; color:#7F95B1; text-align:center; padding:.4rem 0 0 0;
+          }}
+          .fp-footer b {{ color:#38D9E6; font-weight:600; }}
+                    /* fp-header-fix: keep content below Streamlit's fixed top header */
+          .block-container, [data-testid="stMainBlockContainer"] {{
+               padding-top: 4.6rem !important;
+          }}
+          .status-bar {{ margin: 0 0 1.1rem 0 !important; }}
           </style>
 
           """,
@@ -695,12 +771,13 @@ def chart_layout(fig, height=390, legend=True):
           fig.update_layout(
 
                     template="plotly_dark",
+                    hoverlabel=dict(bgcolor="#111E30", bordercolor="#38D9E6", font=dict(family="JetBrains Mono, monospace", size=12, color="#EAF2FF")),
 
                     paper_bgcolor="rgba(0,0,0,0)",
 
                     plot_bgcolor="rgba(0,0,0,0)",
 
-                    font=dict(family="DM Sans, sans-serif", color="#D7E1F0"),
+                    font=dict(family="Inter, sans-serif", color="#D7E1F0"),
 
                     height=height,
 
@@ -752,7 +829,7 @@ with st.sidebar:
 
                     <div style="padding:.15rem 0 .9rem 0">
 
-                         <div style="font-size:2rem">🔥</div>
+                         <div class="orbit-logo"><span></span></div>
 
                          <div style="font-family:'Space Grotesk';font-size:1.35rem;font-weight:700;color:#F5F8FF">FIRE PARALLAX</div>
 
@@ -791,6 +868,7 @@ with st.sidebar:
                     ],
 
                     label_visibility="visible",
+                    format_func=lambda p: {"Mission Overview": "01", "Burning Activity Calendar": "02", "Spatial Explorer": "03", "Sensor Comparison": "04", "Confidence Explorer": "05", "Sensitivity Analysis": "06", "Methodology": "07"}[p] + " · " + p,
 
           )
 
@@ -818,6 +896,10 @@ with st.sidebar:
 
 # ---------------------------------------------------------------------
 
+st.markdown(
+    """<div class="status-bar"><span><span class="status-dot"></span><span class="status-main">MISSION CONTROL</span></span><span>MODIS AQUA × VIIRS NOAA-20</span><span>PUNJAB · HARYANA</span><span>01 OCT – 30 NOV 2022 · UTC</span><span class="status-right">2 KM REFERENCE GRID · EPSG:32643</span></div>""",
+    unsafe_allow_html=True,
+)
 if page == "Mission Overview":
 
           weekly, weekly_err = try_load("weekly_activity_calendar.csv")
@@ -1050,7 +1132,7 @@ if page == "Mission Overview":
 
 elif page == "Burning Activity Calendar":
 
-          section_header("01 / TEMPORAL ANALYSIS", "Burning Activity Calendar", "Weekly active cell-day patterns across the two study states.")
+          section_header("01 / TEMPORAL ANALYSIS", "Burning Activity Calendar", "Tracking the temporal patterns of satellite active-fire observations (UTC dates).")
 
           data, err = try_load("weekly_activity_calendar.csv")
 
@@ -1116,476 +1198,439 @@ elif page == "Burning Activity Calendar":
 
                     st.plotly_chart(chart_layout(fig2, 310, legend=False), width="stretch")
 
+                    st.markdown('<div class="section-kicker">WEEKLY ACTIVITY HEATMAP · ALL STATES AND SENSORS</div>', unsafe_allow_html=True)
+                    _hm = data.assign(row=data["state"] + " · " + data["sensor"]).pivot_table(index="row", columns="week_start", values="weekly_share_pct", aggfunc="sum")
+                    _fig_hm = go.Figure(go.Heatmap(z=_hm.values, x=_hm.columns, y=_hm.index, colorscale=[[0, "#0B1424"], [1, "#38D9E6"]], hovertemplate="%{y}<br>Week beginning %{x|%d %b %Y}<br>Share of sensor activity: %{z:.1f}%<extra></extra>", colorbar=dict(title="Weekly share (%)")))
+                    st.plotly_chart(chart_layout(_fig_hm, 300, legend=False), width="stretch")
+                    st.caption("Each row is one state and sensor. Colour shows the share of that row's own activity in each week, so rows with very different totals can be compared by timing. Partial first and last weeks are shown as recorded.")
                     with st.expander("Inspect weekly records"):
 
                               st.dataframe(filtered, width="stretch", hide_index=True)
 
           st.markdown('<div class="science-note">Active cell-days are spatial grid cells with at least one qualifying detection on a UTC date. They are not counts of unique physical fires. Weekly shares are calculated within each state and sensor.</div>', unsafe_allow_html=True)
-
 # ---------------------------------------------------------------------
-
 # Spatial Explorer
-
 # ---------------------------------------------------------------------
-
 elif page == "Spatial Explorer":
-
-          section_header(
-
-                    "02 / SPATIAL INTELLIGENCE",
-
-                    "Spatial Explorer",
-
-                    "Map the shared-grid observations across Punjab and Haryana.",
-
-          )
-
-          data, err = try_load("grid_comparison_2km.csv")
-
-          if data is None:
-
-                    show_missing("grid_comparison_2km.csv")
-
-          required = {"state", "grid_x", "grid_y", "category"}
-
-          if not required.issubset(data.columns):
-
-                    st.error(f"Spatial dataset is missing columns: {sorted(required - set(data.columns))}")
-
-                    st.stop()
-
-          data["state"] = normalize_state(data["state"])
-
-          spatial = (
-
-                    data.groupby(["state", "grid_x", "grid_y", "category"], as_index=False)
-
-                    .size()
-
-                    .rename(columns={"size": "active_cell_days"})
-
-          )
-
-          # The grid coordinates are cell indices in EPSG:32643. Convert cell centres
-
-          # to geographic coordinates for display; this does not alter the analysis.
-
-          transformer = Transformer.from_crs("EPSG:32643", "EPSG:4326", always_xy=True)
-
-          spatial["x_m"] = (spatial["grid_x"] + 0.5) * 2000
-
-          spatial["y_m"] = (spatial["grid_y"] + 0.5) * 2000
-
-          spatial["longitude"], spatial["latitude"] = transformer.transform(
-
-                    spatial["x_m"].to_numpy(), spatial["y_m"].to_numpy()
-
-          )
-
-          # Mission-style filter panel
-
-          st.markdown(
-
-                    '<div class="panel"><div class="panel-title">OBSERVATION CONTROLS</div>'
-
-                    '<div class="panel-copy">Choose a state and the cell-day categories to display. '
-
-                    'The map and summary values update together.</div></div>',
-
-                    unsafe_allow_html=True,
-
-          )
-
-          filter_col, category_col = st.columns([0.85, 2.15], gap="large")
-
-          states = sorted(spatial["state"].dropna().unique())
-
-          with filter_col:
-
-                    state = st.selectbox("OBSERVATION REGION", states, key="spatial_state")
-
-          with category_col:
-
-                    selected = st.multiselect(
-
-                              "CELL-DAY CATEGORIES",
-
-                              list(CATEGORY_LABELS.keys()),
-
-                              default=list(CATEGORY_LABELS.keys()),
-
-                              format_func=lambda x: CATEGORY_LABELS[x],
-
-                              key="spatial_categories",
-
-                    )
-
-          state_view = spatial[spatial["state"] == state].copy()
-
-          view = state_view[state_view["category"].isin(selected)].copy()
-
-          # Summary totals are calculated from the full selected state, independent
-
-          # of the map category toggles, so the three headline values stay comparable.
-
-          sums = state_view.groupby("category")["active_cell_days"].sum().to_dict()
-
-          st.markdown('<div class="section-kicker">OBSERVATION SUMMARY · ' + state.upper() + '</div>', unsafe_allow_html=True)
-
-          metric_cols = st.columns(3, gap="medium")
-
-          metric_specs = [
-
-                    ("CO-DETECTED", "co_detected", "Both sensors · same cell + UTC date", COLORS["green"]),
-
-                    ("MODIS-ONLY", "modis_only", "MODIS observation only", COLORS["blue"]),
-
-                    ("VIIRS-ONLY", "viirs_only", "VIIRS observation only", COLORS["orange"]),
-
-          ]
-
-          for col, (label, key, note, accent) in zip(metric_cols, metric_specs):
-
-                    with col:
-
-                              st.markdown(
-
-                                        f'<div class="metric-card" style="border-top:3px solid {accent};">'
-
-                                        f'<div class="metric-label">{label}</div>'
-
-                                        f'<div class="metric-value">{moneyless_num(sums.get(key, 0))}</div>'
-
-                                        f'<div class="metric-note">{note}</div></div>',
-
-                                        unsafe_allow_html=True,
-
-                              )
-
-          st.markdown('<div class="section-kicker">GEOGRAPHIC OBSERVATION MAP</div>', unsafe_allow_html=True)
-
-          if view.empty:
-
-                    st.warning("No map cells match the selected categories. Select at least one category to display observations.")
-
-          else:
-
-                    view["category_label"] = view["category"].map(CATEGORY_LABELS)
-
-                    # Stable regional camera: avoids a world-scale/wrapped view
-                    # if a sparse category produces a misleading coordinate extent.
-                    regional_centres = {
-                        "Haryana": {"lat": 29.2, "lon": 76.1},
-                        "Punjab": {"lat": 31.0, "lon": 75.3},
-                    }
-                    center = regional_centres.get(
-                        state, {"lat": 30.2, "lon": 75.7}
-                    )
-                    zoom = 6.2
-
-                    fig = px.scatter_map(
-
-                              view,
-
-                              lat="latitude",
-
-                              lon="longitude",
-
-                              color="category",
-
-                              size="active_cell_days",
-
-                              size_max=11,
-
-                              category_orders={"category": ["co_detected", "modis_only", "viirs_only"]},
-
-                              color_discrete_map=CATEGORY_COLORS,
-
-                              hover_name="category_label",
-
-                              hover_data={
-
-                                        "active_cell_days": ":,",
-
-                                        "state": True,
-
-                                        "grid_x": True,
-
-                                        "grid_y": True,
-
-                                        "latitude": ":.4f",
-
-                                        "longitude": ":.4f",
-
-                                        "category": False,
-
-                              },
-
-                              zoom=zoom,
-
-                              center=center,
-
-                              map_style="carto-darkmatter",
-
-                              height=650,
-
-                              labels={
-
-                                        "category": "Observation category",
-
-                                        "active_cell_days": "Active cell-days",
-
-                                        "state": "State",
-
-                                        "grid_x": "Grid X",
-
-                                        "grid_y": "Grid Y",
-
-                              },
-
-                    )
-
-                    fig.update_traces(
-
-                              marker={"opacity": 0.82},
-
-                              selector={"type": "scattermap"},
-
-                    )
-
-                    fig.update_layout(
-
-                              paper_bgcolor="rgba(0,0,0,0)",
-
-                              plot_bgcolor="rgba(0,0,0,0)",
-
-                              margin=dict(l=0, r=0, t=8, b=0),
-                              map=dict(center=center, zoom=zoom),
-                              height=650,
-
-                              legend=dict(
-
-                                        title="CELL-DAY CATEGORY",
-
-                                        orientation="h",
-
-                                        yanchor="bottom",
-
-                                        y=1.01,
-
-                                        xanchor="left",
-
-                                        x=0.01,
-
-                                        bgcolor="rgba(8,14,27,.78)",
-
-                                        bordercolor="rgba(145,163,188,.22)",
-
-                                        borderwidth=1,
-
-                                        font=dict(color="#E8EEF8", size=12),
-
-                              ),
-
-                              uirevision=f"spatial-{state}",
-
-                    )
-
-                    st.plotly_chart(fig, width="stretch", config={"displaylogo": False, "scrollZoom": True})
-
-          st.markdown(
-
-                    '<div class="science-note"><b>HOW TO INTERPRET THIS MAP</b><br>'
-
-                    'Each marker represents the centre of a 2 km reference-grid cell. Marker size represents '
-
-                    'the number of cell-days in that category over the study period. Colours identify the '
-
-                    'comparison category; they do not represent fire intensity. Markers are not individual '
-
-                    'fire locations or reconstructed fire events.</div>',
-
-                    unsafe_allow_html=True,
-
-          )
-
-          with st.expander("Category definitions and map notes"):
-
-                    st.markdown("""
-
-                    - **Co-detected:** both sensors have one or more qualifying detections in the same grid cell and UTC date.
-
-                    - **MODIS-only:** MODIS has a qualifying detection, but VIIRS does not under the same matching rule.
-
-                    - **VIIRS-only:** VIIRS has a qualifying detection, but MODIS does not under the same matching rule.
-
-                    The map uses the 2 km comparison grid in EPSG:32643, with cell centres transformed to WGS84 for display.
-
-                    """)
-
+    section_header(
+        "02 / SPATIAL INTELLIGENCE",
+        "Spatial Intelligence",
+        "Explore the geographic distribution of shared-grid observations.",
+    )
+    data, err = try_load("grid_comparison_2km.csv")
+    if data is None:
+        show_missing("grid_comparison_2km.csv")
+    required = {"state", "grid_x", "grid_y", "category"}
+    if not required.issubset(data.columns):
+        st.error(f"Spatial dataset is missing columns: {sorted(required - set(data.columns))}")
+        st.stop()
+    data["state"] = normalize_state(data["state"])
+    spatial = (
+        data.groupby(["state", "grid_x", "grid_y", "category"], as_index=False)
+        .size()
+        .rename(columns={"size": "active_cell_days"})
+    )
+    # Grid coordinates are cell indices in EPSG:32643. Cell centres are converted to WGS84 for display only.
+    transformer = Transformer.from_crs("EPSG:32643", "EPSG:4326", always_xy=True)
+    spatial["x_m"] = (spatial["grid_x"] + 0.5) * 2000
+    spatial["y_m"] = (spatial["grid_y"] + 0.5) * 2000
+    spatial["longitude"], spatial["latitude"] = transformer.transform(
+        spatial["x_m"].to_numpy(), spatial["y_m"].to_numpy()
+    )
+
+    st.markdown('<div class="section-kicker">OBSERVATION CONTROLS</div>', unsafe_allow_html=True)
+    states = sorted(spatial["state"].dropna().unique())
+    c1, c2, c3, c4 = st.columns([0.9, 1.8, 1.1, 1.1], gap="medium")
+    with c1:
+        state = st.selectbox("Study state", states, key="spatial_state")
+    with c2:
+        selected = st.multiselect(
+            "Cell-day categories",
+            list(CATEGORY_LABELS.keys()),
+            default=list(CATEGORY_LABELS.keys()),
+            format_func=lambda x: CATEGORY_LABELS[x],
+            key="spatial_categories",
+        )
+    with c3:
+        basemap_name = st.selectbox("Basemap", ["Dark mission", "Satellite imagery", "Light"], key="spatial_basemap")
+    with c4:
+        display = st.radio("Display", ["Cell markers", "Density heat"], key="spatial_display")
+
+    BASEMAPS = {
+        "Dark mission": {"style": "carto-darkmatter", "layers": []},
+        "Light": {"style": "carto-positron", "layers": []},
+        "Satellite imagery": {
+            "style": "white-bg",
+            "layers": [
+                {
+                    "below": "traces",
+                    "sourcetype": "raster",
+                    "sourceattribution": "Imagery © Esri, Maxar, Earthstar Geographics",
+                    "source": ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
+                }
+            ],
+        },
+    }
+    basemap = BASEMAPS[basemap_name]
+
+    state_view = spatial[spatial["state"] == state].copy()
+    view = state_view[state_view["category"].isin(selected)].copy()
+    # Headline totals use the whole selected state, independent of the category toggles.
+    sums = state_view.groupby("category")["active_cell_days"].sum().to_dict()
+    st.markdown('<div class="section-kicker">OBSERVATION SUMMARY · ' + state.upper() + '</div>', unsafe_allow_html=True)
+    metric_cols = st.columns(3, gap="medium")
+    metric_specs = [
+        ("CO-DETECTED", "co_detected", "Both sensors · same cell + UTC date", COLORS["green"]),
+        ("MODIS-ONLY", "modis_only", "MODIS observation only", COLORS["blue"]),
+        ("VIIRS-ONLY", "viirs_only", "VIIRS observation only", COLORS["orange"]),
+    ]
+    for col, (label, key, note, accent) in zip(metric_cols, metric_specs):
+        with col:
+            st.markdown(
+                f'<div class="metric-card" style="border-top:3px solid {accent};">'
+                f'<div class="metric-label">{label}</div>'
+                f'<div class="metric-value">{moneyless_num(sums.get(key, 0))}</div>'
+                f'<div class="metric-note">{note}</div></div>',
+                unsafe_allow_html=True,
+            )
+
+    st.markdown('<div class="section-kicker">GEOGRAPHIC OBSERVATION MAP</div>', unsafe_allow_html=True)
+    if view.empty:
+        st.warning("No map cells match the selected categories. Select at least one category to display observations.")
+    else:
+        centres = {"Haryana": {"lat": 29.2, "lon": 76.1}, "Punjab": {"lat": 31.0, "lon": 75.3}}
+        center = centres.get(state, {"lat": 30.2, "lon": 75.7})
+        zoom = 6.3
+        fig = go.Figure()
+        if display == "Cell markers":
+            cmax = max(float(view["active_cell_days"].max()), 1.0)
+            for cat in ["modis_only", "viirs_only", "co_detected"]:  # co-detected drawn last, on top
+                if cat not in selected:
+                    continue
+                sub = view[view["category"] == cat]
+                if sub.empty:
+                    continue
+                size = 6 + 12 * (sub["active_cell_days"] / cmax) ** 0.5
+                color = CATEGORY_COLORS[cat]
+                fig.add_trace(go.Scattermap(  # soft glow under each marker
+                    lat=sub["latitude"], lon=sub["longitude"], mode="markers",
+                    marker=dict(size=size * 2.3, color=color, opacity=0.14),
+                    hoverinfo="skip", showlegend=False,
+                ))
+                fig.add_trace(go.Scattermap(
+                    lat=sub["latitude"], lon=sub["longitude"], mode="markers",
+                    name=CATEGORY_LABELS[cat],
+                    marker=dict(size=size, color=color, opacity=0.88),
+                    customdata=sub[["active_cell_days", "grid_x", "grid_y", "state"]].to_numpy(),
+                    hovertemplate=(
+                        "<b>%{fullData.name}</b><br>Active cell-days: %{customdata[0]:,}"
+                        "<br>Grid cell: (%{customdata[1]}, %{customdata[2]})<br>%{customdata[3]}"
+                        "<br>%{lat:.4f}°N, %{lon:.4f}°E<extra></extra>"
+                    ),
+                ))
+        else:
+            fig.add_trace(go.Densitymap(
+                lat=view["latitude"], lon=view["longitude"], z=view["active_cell_days"], radius=16,
+                colorscale=[[0, "rgba(56,217,230,0)"], [0.35, "rgba(56,217,230,0.55)"], [0.7, "#FFBF69"], [1, "#FF6666"]],
+                colorbar=dict(title=dict(text="Cell-days", font=dict(color="#EAF2FF")), thickness=12, len=0.55,
+                              tickfont=dict(color="#EAF2FF"), bgcolor="rgba(5,11,22,.6)"),
+                hoverinfo="skip",
+            ))
+        fig.update_layout(
+            map=dict(style=basemap["style"], layers=basemap["layers"], center=center, zoom=zoom),
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+            margin=dict(l=0, r=0, t=0, b=0), height=700,
+            legend=dict(
+                orientation="v", x=0.012, y=0.985, xanchor="left", yanchor="top", itemsizing="constant",
+                bgcolor="rgba(5,11,22,.82)", bordercolor="rgba(56,217,230,.35)", borderwidth=1,
+                font=dict(color="#EAF2FF", size=12),
+            ),
+            hoverlabel=dict(bgcolor="#111E30", bordercolor="#38D9E6",
+                            font=dict(family="JetBrains Mono, monospace", size=12, color="#EAF2FF")),
+            uirevision=f"spatial-{state}-{basemap_name}-{display}",
+        )
+        st.plotly_chart(fig, width="stretch", config={"displaylogo": False, "scrollZoom": True})
+        if basemap_name == "Satellite imagery":
+            st.caption("Satellite basemap: Imagery © Esri, Maxar, Earthstar Geographics. It needs an internet connection; if tiles do not load, switch to the Dark mission basemap.")
+    st.markdown(
+        '<div class="science-note"><b>HOW TO INTERPRET THIS MAP</b><br>'
+        'Each marker is the centre of a 2 km reference-grid cell. Marker size grows with the number of cell-days '
+        'in that cell and category over the study period (square-root scale). Colours identify the comparison '
+        'category, not fire intensity. Density heat shows where selected cell-days concentrate. '
+        'Markers are not individual fire locations or reconstructed fire events.</div>',
+        unsafe_allow_html=True,
+    )
+    with st.expander("Category definitions and map notes"):
+        st.markdown("""
+        - **Co-detected:** both sensors have one or more qualifying detections in the same grid cell and UTC date.
+        - **MODIS-only:** MODIS has a qualifying detection, but VIIRS does not under the same matching rule.
+        - **VIIRS-only:** VIIRS has a qualifying detection, but MODIS does not under the same matching rule.
+
+        The map uses the 2 km comparison grid in EPSG:32643, with cell centres transformed to WGS84 for display.
+        """)
 # ---------------------------------------------------------------------
-
 # Sensor Comparison
-
 # ---------------------------------------------------------------------
-
 elif page == "Sensor Comparison":
+    section_header(
+        "03 / CROSS-SENSOR ANALYSIS",
+        "Sensor Comparison Lab",
+        "Comparing the observation characteristics of two satellite systems.",
+    )
+    data, err = try_load("weekly_activity_calendar.csv")
+    if data is None:
+        show_missing("weekly_activity_calendar.csv")
+    agreement, _ = try_load("agreement_metrics.csv")
+    data["state"] = normalize_state(data["state"])
+    data["week_start"] = pd.to_datetime(data["week_start"])
 
-          section_header("03 / CROSS-SENSOR ANALYSIS", "Sensor Comparison", "Compare weekly activity distributions without treating raw sensor counts as equivalent.")
+    totals = data.groupby("sensor").agg(
+        records=("detection_count", "sum"),
+        cell_days=("active_cell_days", "sum"),
+    )
 
-          data, err = try_load("weekly_activity_calendar.csv")
+    def _total(sensor_name, column):
+        return int(totals.loc[sensor_name, column]) if sensor_name in totals.index else None
 
-          if data is None:
+    st.markdown('<div class="section-kicker">SENSOR PROFILES · STUDY-WIDE (PUNJAB + HARYANA)</div>', unsafe_allow_html=True)
+    p1, p2 = st.columns(2, gap="medium")
+    with p1:
+        st.markdown(
+            f'<div class="panel" style="border-top:3px solid {COLORS["blue"]}">'
+            f'<span class="sensor-chip">SENSOR 01</span>'
+            f'<h3 style="margin-top:.6rem">🛰️ MODIS Aqua</h3>'
+            f'<div class="panel-copy">Platform: NASA Aqua · Collection 6.1<br>'
+            f'Nominal resolution: approximately 1 km<br>'
+            f'Confidence: numeric 0–100 (Low 0–29, Nominal 30–79, High 80–100)<br>'
+            f'<b>Detection records:</b> {moneyless_num(_total("MODIS Aqua", "records"))}<br>'
+            f'<b>Active cell-days (2 km):</b> {moneyless_num(_total("MODIS Aqua", "cell_days"))}</div></div>',
+            unsafe_allow_html=True,
+        )
+    with p2:
+        st.markdown(
+            f'<div class="panel" style="border-top:3px solid {COLORS["orange"]}">'
+            f'<span class="sensor-chip" style="color:#FFC18F;border-color:#80502F;background:rgba(255,155,92,.10)">SENSOR 02</span>'
+            f'<h3 style="margin-top:.6rem">🛰️ VIIRS NOAA-20</h3>'
+            f'<div class="panel-copy">Platform: NOAA-20 · Collection 2 (375 m product)<br>'
+            f'Nominal resolution: 375 m<br>'
+            f'Confidence: categorical (Low, Nominal, High)<br>'
+            f'<b>Detection records:</b> {moneyless_num(_total("VIIRS NOAA-20", "records"))}<br>'
+            f'<b>Active cell-days (2 km):</b> {moneyless_num(_total("VIIRS NOAA-20", "cell_days"))}</div></div>',
+            unsafe_allow_html=True,
+        )
 
-                    show_missing("weekly_activity_calendar.csv")
+    # Records vs cell-days (different units, shown side by side but labelled)
+    compare_rows = []
+    for sensor_name in ["MODIS Aqua", "VIIRS NOAA-20"]:
+        if sensor_name in totals.index:
+            compare_rows.append({"Measure": "Detection records", "Sensor": sensor_name, "Value": int(totals.loc[sensor_name, "records"])})
+            compare_rows.append({"Measure": "Active cell-days (2 km)", "Sensor": sensor_name, "Value": int(totals.loc[sensor_name, "cell_days"])})
+    st.markdown('<div class="section-kicker">RECORDS VS CELL-DAYS</div>', unsafe_allow_html=True)
+    if compare_rows:
+        fig_a = px.bar(
+            pd.DataFrame(compare_rows), x="Measure", y="Value", color="Sensor", barmode="group",
+            color_discrete_map=SENSOR_COLORS, text_auto=",.0f",
+        )
+        fig_a.update_traces(textposition="outside", cliponaxis=False)
+        st.plotly_chart(chart_layout(fig_a, 360), width="stretch")
+    st.caption("Detection records are individual FIRMS rows. Active cell-days count each grid cell once per UTC date, however many records fall in it. The two measures use different units and should not be compared with each other.")
 
-          data["state"] = normalize_state(data["state"])
+    # Co-detection composition and overlap (2 km reference grid)
+    st.markdown('<div class="section-kicker">CELL-DAY OVERLAP · 2 KM REFERENCE GRID</div>', unsafe_allow_html=True)
+    row2 = None
+    if agreement is not None and not agreement.empty:
+        match = agreement.loc[agreement["resolution_km"] == 2]
+        if not match.empty:
+            row2 = match.iloc[0]
+    if row2 is None:
+        st.warning("Overlap metrics are unavailable: agreement_metrics.csv has no 2 km row.")
+    else:
+        k1, k2, k3, k4 = st.columns(4, gap="medium")
+        with k1:
+            metric_card("CO-DETECTED", moneyless_num(row2["co_detected_cell_days"]), "Both sensors · same cell + UTC date")
+        with k2:
+            metric_card("MODIS-ONLY", moneyless_num(row2["modis_only_cell_days"]), "MODIS cell-days without VIIRS")
+        with k3:
+            metric_card("VIIRS-ONLY", moneyless_num(row2["viirs_only_cell_days"]), "VIIRS cell-days without MODIS")
+        with k4:
+            metric_card("JACCARD OVERLAP", f'{float(row2["jaccard_overlap_pct"]):.2f}%', "Co-detected ÷ cell-days from either sensor")
+        st.markdown("")
+        comp = pd.DataFrame([
+            {"Sensor": "MODIS Aqua", "Category": CATEGORY_LABELS["co_detected"], "Cell-days": int(row2["co_detected_cell_days"])},
+            {"Sensor": "MODIS Aqua", "Category": CATEGORY_LABELS["modis_only"], "Cell-days": int(row2["modis_only_cell_days"])},
+            {"Sensor": "VIIRS NOAA-20", "Category": CATEGORY_LABELS["co_detected"], "Cell-days": int(row2["co_detected_cell_days"])},
+            {"Sensor": "VIIRS NOAA-20", "Category": CATEGORY_LABELS["viirs_only"], "Cell-days": int(row2["viirs_only_cell_days"])},
+        ])
+        label_colors = {CATEGORY_LABELS[key]: color for key, color in CATEGORY_COLORS.items()}
+        fig_b = px.bar(
+            comp, x="Sensor", y="Cell-days", color="Category", barmode="stack",
+            color_discrete_map=label_colors, text_auto=",.0f",
+        )
+        st.plotly_chart(chart_layout(fig_b, 360), width="stretch")
+        d1, d2 = st.columns(2, gap="medium")
+        with d1:
+            metric_card("MODIS CELL-DAYS WITH A VIIRS MATCH", f'{float(row2["modis_overlap_pct"]):.2f}%', "Directional share · denominator: MODIS cell-days")
+        with d2:
+            metric_card("VIIRS CELL-DAYS WITH A MODIS MATCH", f'{float(row2["viirs_overlap_pct"]):.2f}%', "Directional share · denominator: VIIRS cell-days")
+        st.caption("The two directional shares use different denominators, so they are not symmetric. They are not accuracy or detection-probability estimates, and a larger count does not mean a more accurate sensor.")
 
-          data["week_start"] = pd.to_datetime(data["week_start"])
+    with st.expander("What is the difference between these measures?"):
+        st.markdown("""
+        - **Detection record:** one FIRMS thermal-detection row from a sensor.
+        - **Active cell-day:** one 2 km grid cell with at least one qualifying detection on one UTC date.
+        - **Co-detected cell-day:** both sensors have an active cell-day in the same cell on the same UTC date.
+        - **Sensor-only cell-day:** only that sensor has an active cell-day under the same matching rule.
+        """)
 
-          state = st.selectbox("Study state", sorted(data["state"].unique()), key="comparison_state")
-
-          view = data[data["state"] == state].copy()
-
-          summary = view.groupby("sensor", as_index=False).agg(
-
-                    active_cell_days=("active_cell_days", "sum"),
-
-                    detection_records=("detection_count", "sum"),
-
-          )
-
-          cols = st.columns(2)
-
-          for i, row in summary.iterrows():
-
-                    with cols[i]:
-
-                              st.metric(f'{row["sensor"]} · active cell-days', moneyless_num(row["active_cell_days"]))
-
-                              st.caption(f'{moneyless_num(row["detection_records"])} detection records')
-
-          fig = px.bar(
-
-                    view, x="week_start", y="active_cell_days", color="sensor", barmode="group",
-
-                    color_discrete_map=SENSOR_COLORS,
-
-                    labels={"week_start": "Week beginning", "active_cell_days": "Active cell-days", "sensor": "Sensor"},
-
-                    hover_data={"detection_count": True, "coverage_days": True},
-
-          )
-
-          st.plotly_chart(chart_layout(fig, 410), width="stretch")
-
-          fig2 = px.line(
-
-                    view, x="week_start", y="weekly_share_pct", color="sensor",
-
-                    markers=True, color_discrete_map=SENSOR_COLORS,
-
-                    labels={"week_start": "Week beginning", "weekly_share_pct": "Within-sensor weekly share (%)", "sensor": "Sensor"},
-
-          )
-
-          st.plotly_chart(chart_layout(fig2, 360), width="stretch")
-
-          with st.expander("View weekly comparison table"):
-
-                    st.dataframe(view.sort_values(["week_start", "sensor"]), width="stretch", hide_index=True)
-
-          st.markdown('<div class="notice">Weekly share describes the timing of activity within each sensor and state. It does not make MODIS and VIIRS detection counts directly comparable and is not a sensor-accuracy metric.</div>', unsafe_allow_html=True)
-
+    # Weekly timing (existing charts, unchanged logic)
+    st.markdown('<div class="section-kicker">WEEKLY TIMING BY STATE</div>', unsafe_allow_html=True)
+    state = st.selectbox("Study state", sorted(data["state"].unique()), key="comparison_state")
+    view = data[data["state"] == state].copy()
+    summary = view.groupby("sensor", as_index=False).agg(
+        active_cell_days=("active_cell_days", "sum"),
+        detection_records=("detection_count", "sum"),
+    )
+    cols = st.columns(max(1, len(summary)))
+    for i, row in summary.iterrows():
+        with cols[i]:
+            st.metric(f'{row["sensor"]} · active cell-days', moneyless_num(row["active_cell_days"]))
+            st.caption(f'{moneyless_num(row["detection_records"])} detection records')
+    fig = px.bar(
+        view, x="week_start", y="active_cell_days", color="sensor", barmode="group",
+        color_discrete_map=SENSOR_COLORS,
+        labels={"week_start": "Week beginning (UTC)", "active_cell_days": "Active cell-days", "sensor": "Sensor"},
+        hover_data={"detection_count": True, "coverage_days": True},
+    )
+    st.plotly_chart(chart_layout(fig, 410), width="stretch")
+    fig2 = px.line(
+        view, x="week_start", y="weekly_share_pct", color="sensor",
+        markers=True, color_discrete_map=SENSOR_COLORS,
+        labels={"week_start": "Week beginning (UTC)", "weekly_share_pct": "Within-sensor weekly share (%)", "sensor": "Sensor"},
+    )
+    st.plotly_chart(chart_layout(fig2, 360), width="stretch")
+    with st.expander("View weekly comparison table"):
+        st.dataframe(view.sort_values(["week_start", "sensor"]), width="stretch", hide_index=True)
+    st.caption("The first calendar week (beginning 26 Sep) covers only 1–2 Oct and the last (28 Nov) covers 28–30 Nov, so partial weeks should not be compared directly with full seven-day weeks.")
+    st.markdown('<div class="notice">Weekly share describes the timing of activity within each sensor and state. It does not make MODIS and VIIRS detection counts directly comparable and is not a sensor-accuracy measure.</div>', unsafe_allow_html=True)
 # ---------------------------------------------------------------------
-
 # Confidence Explorer
-
 # ---------------------------------------------------------------------
-
 elif page == "Confidence Explorer":
+    section_header(
+        "04 / CONFIDENCE ANALYSIS",
+        "Confidence Intelligence",
+        "Exploring how confidence filtering changes sensor agreement.",
+    )
+    data, err = try_load("confidence_class_calendar.csv")
+    if data is None:
+        show_missing("confidence_class_calendar.csv")
+    class_summary, _ = try_load("confidence_class_summary.csv")
+    cross, _ = try_load("high_confidence_cross_sensor_summary.csv")
+    high_grid, _ = try_load("high_confidence_grid_summary.csv")
+    data["state"] = normalize_state(data["state"])
+    data["week_start"] = pd.to_datetime(data["week_start"])
+    class_order = ["Low", "Nominal", "High"]
 
-          section_header("04 / CONFIDENCE ANALYSIS", "Confidence Explorer", "Explore each sensor's native confidence categories as separate reporting systems.")
+    state = st.selectbox("Study state", sorted(data["state"].unique()), key="confidence_state")
 
-          data, err = try_load("confidence_class_calendar.csv")
+    # 1. Distribution of detection records by native confidence class
+    st.markdown('<div class="section-kicker">01 / CONFIDENCE CLASS DISTRIBUTION</div>', unsafe_allow_html=True)
+    if class_summary is None:
+        st.warning("Confidence distribution is unavailable: confidence_class_summary.csv was not found.")
+    else:
+        cs = class_summary.copy()
+        cs["state"] = normalize_state(cs["state"])
+        cs = cs[cs["state"] == state]
+        if cs.empty:
+            st.warning("No confidence-class records for the selected state.")
+        else:
+            fig_d = px.bar(
+                cs, x="confidence_class", y="total_detections", color="sensor", barmode="group",
+                category_orders={"confidence_class": class_order},
+                color_discrete_map=SENSOR_COLORS, text_auto=",.0f",
+                labels={"confidence_class": "Native confidence class", "total_detections": "Detection records", "sensor": "Sensor"},
+            )
+            fig_d.update_traces(textposition="outside", cliponaxis=False)
+            st.plotly_chart(chart_layout(fig_d, 380), width="stretch")
+            st.caption("MODIS classes come from numeric confidence (Low 0–29, Nominal 30–79, High 80–100). VIIRS classes come from its native l / n / h categories. The class names look alike but the two systems are not equivalent.")
 
-          if data is None:
+    # 2. High-confidence cross-sensor comparison
+    st.markdown('<div class="section-kicker">02 / HIGH-CONFIDENCE CROSS-SENSOR COMPARISON · STUDY-WIDE (BOTH STATES)</div>', unsafe_allow_html=True)
+    if cross is None or high_grid is None:
+        st.warning("High-confidence comparison is unavailable: a required CSV was not found.")
+    else:
+        resolution = st.selectbox("Grid resolution (km)", sorted(cross["resolution_km"].unique()), index=1, key="confidence_resolution")
+        cross_view = cross[cross["resolution_km"] == resolution]
+        grid_view = high_grid[high_grid["resolution_km"] == resolution]
+        modis_dir = cross_view[cross_view["direction"] == "MODIS High to any VIIRS"]
+        viirs_dir = cross_view[cross_view["direction"] == "VIIRS High to any MODIS"]
+        c1, c2, c3 = st.columns(3, gap="medium")
+        with c1:
+            if modis_dir.empty:
+                metric_card("MODIS HIGH → ANY VIIRS", "—", "No record for this resolution")
+            else:
+                r = modis_dir.iloc[0]
+                metric_card("MODIS HIGH → ANY VIIRS", f'{float(r["matched_high_cell_days_pct"]):.2f}%',
+                            f'{moneyless_num(r["matched_high_cell_days"])} of {moneyless_num(r["high_sensor_cell_days"])} MODIS high-confidence cell-days')
+        with c2:
+            if viirs_dir.empty:
+                metric_card("VIIRS HIGH → ANY MODIS", "—", "No record for this resolution")
+            else:
+                r = viirs_dir.iloc[0]
+                metric_card("VIIRS HIGH → ANY MODIS", f'{float(r["matched_high_cell_days_pct"]):.2f}%',
+                            f'{moneyless_num(r["matched_high_cell_days"])} of {moneyless_num(r["high_sensor_cell_days"])} VIIRS high-confidence cell-days')
+        with c3:
+            if grid_view.empty:
+                metric_card("HIGH VS HIGH", "—", "No record for this resolution")
+            else:
+                r = grid_view.iloc[0]
+                metric_card("HIGH VS HIGH · JACCARD", f'{float(r["jaccard_overlap_pct"]):.2f}%',
+                            f'{moneyless_num(r["co_detected_cell_days"])} co-detected high-confidence cell-days')
+        if not cross_view.empty:
+            fig_c = px.bar(
+                cross_view, x="direction", y="matched_high_cell_days_pct", color="direction",
+                color_discrete_sequence=[COLORS["blue"], COLORS["orange"]],
+                labels={"direction": "Matching direction", "matched_high_cell_days_pct": "Matched high-confidence cell-days (%)"},
+                hover_data=["high_sensor_cell_days", "matched_high_cell_days", "unmatched_high_cell_days"],
+            )
+            fig_c.update_traces(texttemplate="%{y:.2f}%", textposition="outside", cliponaxis=False)
+            st.plotly_chart(chart_layout(fig_c, 330, legend=False), width="stretch")
+        st.caption("High → any compares one sensor's high-confidence cell-days with all cell-days of the other sensor. High vs high compares the two high-confidence subsets only. These are different metrics with different denominators. None is an accuracy or detection-probability estimate.")
 
-                    show_missing("confidence_class_calendar.csv")
-
-          data["state"] = normalize_state(data["state"])
-
-          data["week_start"] = pd.to_datetime(data["week_start"])
-
-          c1, c2 = st.columns(2)
-
-          with c1:
-
-                    state = st.selectbox("Study state", sorted(data["state"].unique()), key="confidence_state")
-
-          with c2:
-
-                    conf = st.selectbox("Confidence class", ["Low", "Nominal", "High"], key="confidence_level")
-
-          view = data[(data["state"] == state) & (data["confidence_class"] == conf)].copy()
-
-          summary = view.groupby("sensor", as_index=False).agg(
-
-                    active_cell_days=("active_cell_days", "sum"),
-
-                    detection_records=("detection_count", "sum"),
-
-          )
-
-          cols = st.columns(max(1, len(summary)))
-
-          for i, row in summary.iterrows():
-
-                    with cols[i]:
-
-                              st.metric(f'{row["sensor"]} · {conf}', moneyless_num(row["active_cell_days"]))
-
-                              st.caption(f'{moneyless_num(row["detection_records"])} detection records')
-
-          fig = px.bar(
-
-                    view, x="week_start", y="active_cell_days", color="sensor", barmode="group",
-
-                    color_discrete_map=SENSOR_COLORS,
-
-                    labels={"week_start": "Week beginning", "active_cell_days": "Active cell-days", "sensor": "Sensor"},
-
-          )
-
-          st.plotly_chart(chart_layout(fig, 390), width="stretch")
-
-          fig2 = px.line(
-
-                    view, x="week_start", y="weekly_share_pct", color="sensor",
-
-                    markers=True, color_discrete_map=SENSOR_COLORS,
-
-                    labels={"week_start": "Week beginning", "weekly_share_pct": "Within-class weekly share (%)", "sensor": "Sensor"},
-
-          )
-
-          st.plotly_chart(chart_layout(fig2, 330), width="stretch")
-
-          with st.expander("View confidence-class records"):
-
-                    st.dataframe(view.sort_values(["week_start", "sensor"]), width="stretch", hide_index=True)
-
-          st.markdown('<div class="notice">MODIS numeric confidence thresholds and VIIRS categorical confidence labels are sensor-specific. Low, Nominal and High are shown for exploration, not as equivalent probabilities or accuracy levels. A cell-day may occur in more than one class if multiple detections with different confidence values occur in that cell-day.</div>', unsafe_allow_html=True)
-
+    # 3. Weekly timing by confidence class (existing charts, unchanged logic)
+    st.markdown('<div class="section-kicker">03 / WEEKLY TIMING BY CONFIDENCE CLASS</div>', unsafe_allow_html=True)
+    conf = st.selectbox("Confidence class", class_order, key="confidence_level")
+    view = data[(data["state"] == state) & (data["confidence_class"] == conf)].copy()
+    summary = view.groupby("sensor", as_index=False).agg(
+        active_cell_days=("active_cell_days", "sum"),
+        detection_records=("detection_count", "sum"),
+    )
+    cols = st.columns(max(1, len(summary)))
+    for i, row in summary.iterrows():
+        with cols[i]:
+            st.metric(f'{row["sensor"]} · {conf}', moneyless_num(row["active_cell_days"]))
+            st.caption(f'{moneyless_num(row["detection_records"])} detection records')
+    fig = px.bar(
+        view, x="week_start", y="active_cell_days", color="sensor", barmode="group",
+        color_discrete_map=SENSOR_COLORS,
+        labels={"week_start": "Week beginning (UTC)", "active_cell_days": "Active cell-days", "sensor": "Sensor"},
+    )
+    st.plotly_chart(chart_layout(fig, 390), width="stretch")
+    fig2 = px.line(
+        view, x="week_start", y="weekly_share_pct", color="sensor",
+        markers=True, color_discrete_map=SENSOR_COLORS,
+        labels={"week_start": "Week beginning (UTC)", "weekly_share_pct": "Within-class weekly share (%)", "sensor": "Sensor"},
+    )
+    st.plotly_chart(chart_layout(fig2, 330), width="stretch")
+    with st.expander("View confidence-class records"):
+        st.dataframe(view.sort_values(["week_start", "sensor"]), width="stretch", hide_index=True)
+    st.markdown('<div class="notice">MODIS numeric confidence thresholds and VIIRS categorical confidence labels are sensor-specific. Low, Nominal and High are shown for exploration, not as equivalent probabilities. Confidence-class cell-days can overlap when one cell-day has detections of different classes, so they must not be summed as unique activity.</div>', unsafe_allow_html=True)
 # ---------------------------------------------------------------------
-
 # Sensitivity Analysis
-
 # ---------------------------------------------------------------------
-
 elif page == "Sensitivity Analysis":
 
-          section_header("05 / ROBUSTNESS TESTS", "Sensitivity Analysis", "See how spatial and temporal analytical choices change the measured overlap.")
+          section_header("05 / ROBUSTNESS TESTS", "Sensitivity & Robustness Lab", "Testing how analytical choices change measured sensor agreement.")
 
           grid, grid_err = try_load("grid_sensitivity_summary.csv")
 
@@ -1729,7 +1774,7 @@ elif page == "Sensitivity Analysis":
 
 elif page == "Methodology":
 
-          section_header("06 / SCIENTIFIC FRAMEWORK", "Methodology & responsible interpretation", "The processing and comparison rules behind the dashboard.")
+          section_header("06 / SCIENTIFIC FRAMEWORK", "Methodology & Responsible Interpretation", "The processing and comparison rules behind the dashboard.")
 
           st.markdown("### Research question")
 
@@ -1835,4 +1880,7 @@ elif page == "Methodology":
 
 st.markdown("---")
 
-st.caption("FIRE PARALLAX     ·     ROCHE DOMINION     ·     SPACE APPS PROJECT     ·     Data: NASA FIRMS active-fire products")
+st.markdown(
+    """<div class="fp-footer"><b>FIRE PARALLAX</b> · ROCHE DOMINION · NASA SPACE APPS CHALLENGE 2026<br>OBSERVE EARTH. COMPARE SENSORS. UNDERSTAND THE DIFFERENCE.<br>DATA: NASA FIRMS ACTIVE-FIRE PRODUCTS · INDEPENDENT PROJECT, NOT AN OFFICIAL NASA PRODUCT</div>""",
+    unsafe_allow_html=True,
+)
