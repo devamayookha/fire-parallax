@@ -1,0 +1,7 @@
+resolution_km,direction,high_sensor_cell_days,other_sensor_any_cell_days,matched_high_cell_days,unmatched_high_cell_days,matched_high_cell_days_pct
+1,MODIS High to any VIIRS,1392,46331,343,1049,24.64080459770115
+1,VIIRS High to any MODIS,1350,11097,32,1318,2.3703703703703702
+2,MODIS High to any VIIRS,1303,39726,585,718,44.896392939370685
+2,VIIRS High to any MODIS,1297,9894,90,1207,6.939090208172706
+5,MODIS High to any VIIRS,1168,24472,904,264,77.3972602739726
+5,VIIRS High to any MODIS,1127,7656,249,878,22.09405501330967

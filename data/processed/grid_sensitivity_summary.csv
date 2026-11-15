@@ -1,0 +1,4 @@
+resolution_km,modis_cell_days,viirs_cell_days,co_detected_cell_days,modis_only_cell_days,viirs_only_cell_days
+1,11097,46331,1849,9248,44482
+2,9894,39726,3406,6488,36320
+5,7656,24472,5166,2490,19306

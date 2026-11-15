@@ -1,0 +1,4 @@
+resolution_km,modis_cell_days,viirs_cell_days,co_detected_cell_days,modis_only_cell_days,viirs_only_cell_days,jaccard_overlap_pct
+1,1392,1350,4,1388,1346,0.1460920379839299
+2,1303,1297,15,1288,1282,0.5802707930367506
+5,1168,1127,36,1132,1091,1.593625498007968

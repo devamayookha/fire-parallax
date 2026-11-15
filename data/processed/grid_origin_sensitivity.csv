@@ -1,0 +1,4 @@
+grid_origin,origin_x_m,origin_y_m,modis_cell_days,viirs_cell_days,co_detected_cell_days,modis_only_cell_days,viirs_only_cell_days,jaccard_overlap_pct
+Current,0,0,9894,39726,3406,6488,36320,7.370061020469986
+Shifted_East,500,0,9946,39697,3398,6548,36299,7.347821386095794
+Shifted_NorthEast,500,500,9924,39816,3378,6546,36438,7.286139510806263
